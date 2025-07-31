@@ -1,7 +1,7 @@
 name: OWASP ZAP Baseline Scan
 
 on:
-  workflow_dispatch:  # Allows manual triggering from GitHub UI
+  workflow_dispatch:
 
 jobs:
   zap_scan:
@@ -14,7 +14,7 @@ jobs:
     - name: Run ZAP Baseline Scan
       uses: zaproxy/action-baseline@v0.7.0
       with:
-        target: 'https://careerkit.indstack.com/'  # ← Replace with actual environment URL
+        target: 'https://careerkit.indstack.com/'
 
     - name: Upload ZAP Reports
       uses: actions/upload-artifact@v3
@@ -24,3 +24,17 @@ jobs:
           report_html.html
           report_json.json
           report_md.md
+
+    - name: Send Email with Report
+      uses: mattnotmitt/send-email@v2
+      with:
+        server_address: smtp.gmail.com
+        server_port: 465
+        username: ${{ secrets.SMTP_USER }}
+        password: ${{ secrets.SMTP_PASS }}
+        subject: "OWASP ZAP Scan Report"
+        body: "Hi,\n\nPlease find the attached OWASP ZAP scan report."
+        to: ${{ secrets.SMTP_TO }}
+        from: ${{ secrets.SMTP_USER }}
+        secure: true
+        attachments: report_html.html
