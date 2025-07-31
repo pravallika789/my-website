@@ -10,7 +10,7 @@ on:
 
 jobs:
   zap_scan:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest  # Docker works here
     steps:
       - name: OWASP ZAP Baseline Scan
         uses: zaproxy/action-baseline@v0.7.0
