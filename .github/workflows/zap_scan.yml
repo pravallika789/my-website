@@ -1,8 +1,5 @@
 name: OWASP ZAP Scan
 
-permissions:
-  contents: read
-
 on:
   push:
     branches:
@@ -11,8 +8,12 @@ on:
 jobs:
   zap_scan:
     runs-on: ubuntu-latest
+
     steps:
-      - name: OWASP ZAP Baseline Scan
-        uses: zaproxy/action-baseline@v0.7.0
-        with:
-          target: 'https://pravallika789.github.io/my-website/'
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: ZAP Baseline Scan
+      uses: zaproxy/action-baseline@v0.9.0
+      with:
+        target: 'https://pravallika789.github.io/my-website/'  # Replace if different
